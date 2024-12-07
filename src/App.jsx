@@ -176,105 +176,108 @@ const MatchingGame = () => {
   }, [gameStarted, matchedPairs.length, currentLesson]);
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-6 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 rounded-2xl shadow-xl">
-      <div className="flex flex-col gap-6">
-        {/* Header */}
-        <div className="text-center space-y-3">
-          <h2 className="text-2xl font-semibold text-gray-700">
-            {lessons[currentLesson].title}
-          </h2>
-          <div className="flex justify-center gap-3">
-            {lessons.map((lesson, index) => (
-              <button
-                key={lesson.id}
-                onClick={() => selectLesson(index)}
-                className={`
+    <main className='flex justify-center items-center  bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100  min-h-screen'>
+      <div className="w-full max-w-4xl mx-auto p-6 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 rounded-2xl shadow-xl">
+        <div className="flex flex-col gap-6">
+          {/* Header */}
+          <div className="text-center space-y-3">
+            <h2 className="text-2xl font-semibold text-gray-700">
+              {lessons[currentLesson].title}
+            </h2>
+            <div className="flex justify-center gap-3">
+              {lessons.map((lesson, index) => (
+                <button
+                  key={lesson.id}
+                  onClick={() => selectLesson(index)}
+                  className={`
                   px-4 py-2 rounded-lg flex items-center gap-2 transition-all
                   ${currentLesson === index
-                    ? 'bg-blue-500 text-white border-2 border-blue-600 shadow-lg'
-                    : 'bg-white hover:bg-blue-50 border-2 border-gray-200 hover:border-blue-300'
-                  }
+                      ? 'bg-blue-500 text-white border-2 border-blue-600 shadow-lg'
+                      : 'bg-white hover:bg-blue-50 border-2 border-gray-200 hover:border-blue-300'
+                    }
                   ${completedLessons.includes(index) ? 'border-green-300' : ''}
                 `}
-              >
-                {completedLessons.includes(index) && (
-                  <CheckCircle className="w-4 h-4 text-green-500" />
-                )}
-                Lesson {lesson.id}
-              </button>
-            ))}
+                >
+                  {completedLessons.includes(index) && (
+                    <CheckCircle className="w-4 h-4 text-green-500" />
+                  )}
+                  Lesson {lesson.id}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Game Stats */}
-        <div className="grid grid-cols-3 gap-4">
-          <div className="bg-white/80 backdrop-blur-sm p-3 rounded-xl shadow-lg flex items-center justify-center gap-2">
-            <Clock className="w-5 h-5 text-blue-500" />
-            <span className="text-lg font-semibold text-gray-700">{formatTime(timer)}</span>
+          {/* Game Stats */}
+          <div className="grid grid-cols-3 gap-4">
+            <div className="bg-white/80 backdrop-blur-sm p-3 rounded-xl shadow-lg flex items-center justify-center gap-2">
+              <Clock className="w-5 h-5 text-blue-500" />
+              <span className="text-lg font-semibold text-gray-700">{formatTime(timer)}</span>
+            </div>
+            <div className="bg-white/80 backdrop-blur-sm p-3 rounded-xl shadow-lg flex items-center justify-center gap-2">
+              <Trophy className="w-5 h-5 text-yellow-500" />
+              <span className="text-lg font-semibold text-gray-700">
+                {matchedPairs.length / 2} / {lessons[currentLesson].terms.length}
+              </span>
+            </div>
+            <button
+              onClick={resetGame}
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl hover:from-blue-600 hover:to-purple-600 transition-all shadow-lg hover:shadow-xl"
+            >
+              <Shuffle className="w-4 h-4" />
+              Reset
+            </button>
           </div>
-          <div className="bg-white/80 backdrop-blur-sm p-3 rounded-xl shadow-lg flex items-center justify-center gap-2">
-            <Trophy className="w-5 h-5 text-yellow-500" />
-            <span className="text-lg font-semibold text-gray-700">
-              {matchedPairs.length / 2} / {lessons[currentLesson].terms.length}
-            </span>
-          </div>
-          <button
-            onClick={resetGame}
-            className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-xl hover:from-blue-600 hover:to-purple-600 transition-all shadow-lg hover:shadow-xl"
-          >
-            <Shuffle className="w-4 h-4" />
-            Reset
-          </button>
-        </div>
 
-        {/* Game Grid */}
-        <div className="grid grid-cols-4 gap-4">
-          {cards.map((card) => (
-            <Card
-              key={card.id}
-              onClick={() => handleCardClick(card)}
-              className={`
+          {/* Game Grid */}
+          <div className="grid grid-cols-4 gap-4">
+            {cards.map((card) => (
+              <Card
+                key={card.id}
+                onClick={() => handleCardClick(card)}
+                className={`
                 cursor-pointer transition-all duration-300 transform
                 ${getCardStyle(card.id)}
                 ${selectedCards.map(c => c.id).includes(card.id) ? 'ring-2 ring-purple-400 scale-105' : ''}
                 ${isChecking ? 'pointer-events-none' : 'hover:scale-105'}
                 shadow-lg hover:shadow-xl rounded-xl border-2 border-white/50
               `}
-            >
-              <CardContent className="p-4">
-                <p className={`
+              >
+                <CardContent className="p-4">
+                  <p className={`
                   text-center min-h-20 flex items-center justify-center
                   ${card.type === 'term' ? 'font-bold text-lg bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent' : 'text-gray-700 text-base'}
                   ${incorrectPair.includes(card.id) ? 'text-red-600' : ''}
                 `}>
-                  {card.content}
-                </p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-
-        {/* Game Status */}
-        {matchedPairs.length === lessons[currentLesson].terms.length * 2 && (
-          <div className="bg-gradient-to-r from-emerald-100 to-teal-100 p-4 rounded-xl shadow-lg text-center">
-            <p className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-              🎉 Congratulations! You've completed {lessons[currentLesson].title}!
-            </p>
-            <p className="text-emerald-700 mt-2">
-              Time: {formatTime(timer)} | Moves: {moves}
-            </p>
-            {currentLesson < lessons.length - 1 && (
-              <button
-                onClick={() => selectLesson(currentLesson + 1)}
-                className="mt-2 px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600"
-              >
-                Continue to Lesson {currentLesson + 2}
-              </button>
-            )}
+                    {card.content}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
-        )}
+
+          {/* Game Status */}
+          {matchedPairs.length === lessons[currentLesson].terms.length * 2 && (
+            <div className="bg-gradient-to-r from-emerald-100 to-teal-100 p-4 rounded-xl shadow-lg text-center">
+              <p className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+                🎉 Congratulations! You've completed {lessons[currentLesson].title}!
+              </p>
+              <p className="text-emerald-700 mt-2">
+                Time: {formatTime(timer)} | Moves: {moves}
+              </p>
+              {currentLesson < lessons.length - 1 && (
+                <button
+                  onClick={() => selectLesson(currentLesson + 1)}
+                  className="mt-2 px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600"
+                >
+                  Continue to Lesson {currentLesson + 2}
+                </button>
+              )}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </main>
+
   );
 };
 
