@@ -176,7 +176,7 @@ const MatchingGame = () => {
   }, [gameStarted, matchedPairs.length, currentLesson]);
 
   return (
-    <main className='flex justify-center items-center  bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100  min-h-screen'>
+    <main className='flex justify-center items-center  bg-gradient-to-br from-blue-200 via-purple-50 to-pink-200  min-h-screen'>
       <div className="w-full max-w-4xl mx-auto p-6 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 rounded-2xl shadow-xl">
         <div className="flex flex-col gap-6">
           {/* Header */}
