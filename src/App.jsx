@@ -176,12 +176,12 @@ const MatchingGame = () => {
   }, [gameStarted, matchedPairs.length, currentLesson]);
 
   return (
-    <main className='flex justify-center items-center  bg-gradient-to-br from-blue-200 via-purple-50 to-pink-200  min-h-screen'>
-      <div className="w-full max-w-4xl mx-auto p-6 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 rounded-2xl shadow-xl">
+    <main className='flex justify-center items-center bg-gradient-to-br from-blue-200 via-purple-50 to-pink-200  min-h-screen'>
+      <div className="w-full max-w-4xl mx-auto p-6 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 rounded-2xl shadow-xl border border-gray-300">
         <div className="flex flex-col gap-6">
           {/* Header */}
           <div className="text-center space-y-3">
-            <h2 className="text-2xl font-semibold text-gray-700">
+            <h2 className="text-3xl font-semibold text-gray-700 py-5">
               {lessons[currentLesson].title}
             </h2>
             <div className="flex justify-center gap-3">
@@ -235,11 +235,11 @@ const MatchingGame = () => {
                 key={card.id}
                 onClick={() => handleCardClick(card)}
                 className={`
-                cursor-pointer transition-all duration-300 transform
+                cursor-pointer transition-all duration-300 transform flex items-center justify-center
                 ${getCardStyle(card.id)}
                 ${selectedCards.map(c => c.id).includes(card.id) ? 'ring-2 ring-purple-400 scale-105' : ''}
                 ${isChecking ? 'pointer-events-none' : 'hover:scale-105'}
-                shadow-lg hover:shadow-xl rounded-xl border-2 border-white/50
+                shadow-lg hover:shadow-xl rounded-xl border-2 border-white/50 flex items-center justify-center
               `}
               >
                 <CardContent className="p-4">
